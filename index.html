@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>La Jolla Neighborhood Map</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+      <div class="options-box">
+        <h1>My Favorite La Jolla locations</h1>
+        <hr>
+        <div>
+          <span class="text">Search for nearby places</span>
+          <input id="places-search" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Search Locations...">
+          <ul class="nav flex-column" data-bind="foreach: myLocationsFilter">
+            <a href="#"><li class="nav-item text-white location_list" data-bind="text: title, click: $parent.populateAndBounceMarker"></li></a>
+          </ul>
+        </div>
+      </div>
+      <div id="map"></div>
+    </div>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/locations.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFako0w28jLV7OXTWxS9Hlx2IujId5ACg&libraries=places,geometry,drawing&v=3&callback=initMap">
+   </script>
+</body>
+</html>
