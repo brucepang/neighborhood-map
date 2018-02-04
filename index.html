@@ -12,9 +12,12 @@
         <hr>
         <div>
           <span class="text">Search for nearby places</span>
-          <input id="places-search" data-bind="textInput: searchOption, valueUpdate: 'afterkeydown'" placeholder="Search Locations...">
-          <ul class="nav flex-column" data-bind="foreach: myLocationsFilter">
-            <a href="#"><li class="nav-item text-white location_list" data-bind="text: title, click: $parent.populateAndBounceMarker"></li></a>
+          <input id="places-search" data-bind="textInput: filter, valueUpdate: 'afterkeydown'" placeholder="Search Locations...">
+
+          <ul class="nav flex-column" data-bind="foreach: fav_places">
+
+            <a href="#"><li class="nav-item text-white location_list" data-bind="text: title, click: $parent.showMarker"></li></a>
+
           </ul>
         </div>
       </div>
@@ -25,7 +28,7 @@
     <script src="js/locations.js"></script>
     <script src="js/app.js"></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFako0w28jLV7OXTWxS9Hlx2IujId5ACg&libraries=places,geometry,drawing&v=3&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFako0w28jLV7OXTWxS9Hlx2IujId5ACg&libraries=places,geometry,drawing&v=3&callback=initMap" onerror="googleError()">
    </script>
 </body>
 </html>

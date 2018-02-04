@@ -1,18 +1,10 @@
 var map;
 
 // Create a new blank array for all the listing markers.
-var markers = [];
 
-// This global polygon variable is to ensure only ONE polygon is rendered.
-var polygon = null;
 
-// Create placemarkers array to use in multiple functions to have control
-// over the number of places that show.
-var placeMarkers = [];
-
-function ViewModel() {
+var ViewModel = function() {
   // Create a styles array to use with the map.
-
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat:32.8727926, lng: -117.2326232},
@@ -20,9 +12,10 @@ function ViewModel() {
     styles: styles,
     mapTypeControl: false
   });
+  var self = this;
+  var markers = [];
 
-
-  this.searchOption = ko.observable("");
+  this.filter = ko.observable("");
   // This autocomplete is for use in the geocoder entry box.
   var zoomAutocomplete = new google.maps.places.Autocomplete(
       document.getElementById('zoom-to-area-text'));
@@ -30,10 +23,7 @@ function ViewModel() {
   zoomAutocomplete.bindTo('bounds', map);
   // Create a searchbox in order to execute a places search
 
-  for (var i = 0; i < locations.length; i++) {
-
-  }
-  var largeInfowindow = new google.maps.InfoWindow();
+  this.largeInfoWindow = new google.maps.InfoWindow();
 
   // Style the markers a bit. This will be our listing marker icon.
   var defaultIcon = makeMarkerIcon('0091ff');
@@ -58,12 +48,9 @@ function ViewModel() {
     // Push the marker to our array of markers.
     markers.push(marker);
 
-
-  
-
     // Create an onclick event to open the large infowindow at each marker.
     marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
+      populateInfoWindow(this, self.largeInfoWindow);
     });
     // Two event listeners - one for mouseover, one for mouseout,
     // to change the colors back and forth.
@@ -75,13 +62,12 @@ function ViewModel() {
     });
   }
 
-  this.myLocationsFilter = ko.computed(function() {
+  this.fav_places = ko.computed(function() {
         var result = [];
         for (var i = 0; i < markers.length; i++) {
-            var markerLocation = markers[i];
-            if (markerLocation.title.toLowerCase().includes(this.searchOption()
+            if (markers[i].title.toLowerCase().includes(this.filter()
                     .toLowerCase())) {
-                result.push(markerLocation);
+                result.push(markers[i]);
                 markers[i].setVisible(true);
             } else {
                 markers[i].setVisible(false);
@@ -136,7 +122,7 @@ function ViewModel() {
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
     }
-  }
+  };
 
   // This function will loop through the markers array and display them all.
   function showListings() {
@@ -147,14 +133,14 @@ function ViewModel() {
       bounds.extend(markers[i].position);
     }
     map.fitBounds(bounds);
-  }
+  };
 
   // This function will loop through the listings and hide them all.
   function hideMarkers(markers) {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
-  }
+  };
 
   // This function takes in a COLOR, and then creates a new marker
   // icon of that color. The icon will be 21 px wide by 34 high, have an origin
@@ -168,9 +154,26 @@ function ViewModel() {
       new google.maps.Point(10, 34),
       new google.maps.Size(21,34));
     return markerImage;
-  }
+  };
+
+  this.showMarker = function(){
+    populateInfoWindow(this, self.largeInfoWindow);
+    this.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout((function() {
+        this.setAnimation(null);
+    }).bind(this), 1400);
+  };
 
 }
+
+
+googleError = function googleError() {
+    alert(
+        'Oops. Google Maps did not load. Please refresh the page and try again!'
+    );
+};
+
+
 
 function initMap(){
   ko.applyBindings(new ViewModel());
