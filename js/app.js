@@ -168,13 +168,14 @@ var ViewModel = function() {
       markers[i].setMap(null);
     }
   };
-
-
-
-
 };
+
+function errorHandler(){
+  alert("Failed to load Google Maps! Please refresh the page and try again!");
+}
 
 
 function initMap(){
   ko.applyBindings(new ViewModel());
 }
+
