@@ -1,7 +1,7 @@
 # Neighborhood Map Application
 This application features a map of my neighborhood. It is a practice to use javascraiptknockout.js and third party data from Google Maps API and FourSquare API.
-##Usage
-Please download the repo and open index.html file in your favorite browser.
+## Usage
+Clone the repo and open index.html file in your favorite browser.
 ## Skills used
 - Javascript
 - jQuery
