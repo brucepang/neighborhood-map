@@ -8,21 +8,22 @@
 </head>
 <body>
     <div class="container">
-      <div class="options-box">
+      <aside class="options-box">
         <h1>My Favorite La Jolla locations</h1>
         <hr>
         <div>
           <span class="text">Search for nearby places</span>
           <input id="places-search" data-bind="textInput: filter, valueUpdate: 'afterkeydown'" placeholder="Search Locations...">
 
-          <ul class="nav flex-column" data-bind="foreach: fav_places">
+          <ul class="nav flex-column" data-bind="foreach: favoritePlaces">
 
             <a href="#"><li class="nav-item text-white location_list" data-bind="text: title, click: $parent.showMarker"></li></a>
 
           </ul>
         </div>
-      </div>
-      <div id="map"></div>
+      </aside>
+
+      <main id="map"></main>
     </div>
 
     <script src="js/lib/knockout-3.2.0.js"></script>

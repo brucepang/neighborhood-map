@@ -16,12 +16,6 @@ var ViewModel = function() {
   var markers = [];
 
   this.filter = ko.observable("");
-  // This autocomplete is for use in the geocoder entry box.
-  var zoomAutocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('zoom-to-area-text'));
-  // Bias the boundaries within the map for the zoom to area text.
-  zoomAutocomplete.bindTo('bounds', map);
-  // Create a searchbox in order to execute a places search
   this.populateInfoWindow = function(marker,infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -45,11 +39,11 @@ var ViewModel = function() {
       // Foursquare API
       $.getJSON(requestUrl).done(function(marker) {
           var response = marker.response.venues[0];
-          self.street = response.location.formattedAddress[0];
-          self.city = response.location.formattedAddress[1];
-          self.country = response.location.formattedAddress[2];
-          self.category = response.categories[0].shortName;
-          self.contact = response.contact.formattedPhone;
+          self.street = response.location.formattedAddress[0] || "No street provided";
+          self.city = response.location.formattedAddress[1] || "No city provided";
+          self.country = response.location.formattedAddress[2] || "No country provided";
+          self.category = response.categories[0].shortName || "No category provided";
+          self.contact = response.contact.formattedPhone || "No contact provided";
           content +=
               '<h5>(' + self.category + ')</h5>' + '<div>' +
               '<h4> Address: </h4>' +
@@ -75,7 +69,7 @@ var ViewModel = function() {
     this.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout((function() {
         this.setAnimation(null);
-    }).bind(this), 1000);
+    }).bind(this), 1400);
   };
 
   this.largeInfoWindow = new google.maps.InfoWindow();
@@ -128,7 +122,7 @@ var ViewModel = function() {
     marker.addListener('mouseout',self.setMarkerDefault);
   }
 
-  this.fav_places = ko.computed(function() {
+  this.favoritePlaces = ko.computed(function() {
         var places = [];
         for (var i = 0; i < markers.length; i++) {
             if (markers[i].title.toLowerCase().includes(this.filter()
