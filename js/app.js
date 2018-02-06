@@ -72,7 +72,6 @@ var ViewModel = function() {
     else{
       this.mapLeft(362);
     }
-    console.log(this.mapLeft());
     this.visibility(!this.visibility());
   };
 
