@@ -8,7 +8,9 @@
 </head>
 <body>
     <div class="container">
-      <aside class="options-box">
+      <main id="map"></main>
+
+      <aside class="options-box" data-bind="visible:visibility">
         <h1>My Favorite La Jolla locations</h1>
         <hr>
         <div>
@@ -23,7 +25,10 @@
         </div>
       </aside>
 
-      <main id="map"></main>
+
+      <div data-bind="click:toggleSideBar" class="btn">
+        <button>Toggle Sidebar</button>
+      </div>
     </div>
 
     <script src="js/lib/knockout-3.2.0.js"></script>

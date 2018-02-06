@@ -14,7 +14,8 @@ var ViewModel = function() {
   });
   var self = this;
   var markers = [];
-
+  self.mapLeft = ko.observable(362);
+  self.visibility = ko.observable(true);
   this.filter = ko.observable("");
   this.populateInfoWindow = function(marker,infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
@@ -62,6 +63,17 @@ var ViewModel = function() {
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
     }
+  };
+  this.toggleSideBar = function(){
+    if (this.mapLeft() ==362 ) 
+      {
+        this.mapLeft(0);
+      } 
+    else{
+      this.mapLeft(362);
+    };
+    console.log(this.mapLeft());
+    this.visibility(!this.visibility());
   };
 
   this.showMarker = function(){
